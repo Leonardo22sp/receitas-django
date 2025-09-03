@@ -1,223 +1,30 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
+{% extends "receitas/base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receitas</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
-        integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% block title %}Home - Minhas Receitas{% endblock %}
 
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-    </style>
-</head>
-
-<body class="bg-gray-100 text-gray-900">
-    <header class="bg-gray-900 text-white p-6 shadow-lg rounded-b-lg">
-        <div class="container mx-auto flex flex-col sm:flex-row items-center justify-center">
-            <div class="flex items-center mb-4 sm:mb-0">
-                <div class="text-4xl mr-4">
-                    <i class="fas fa-utensils"></i>
-                </div>
-                <h1 class="text-4xl font-bold text-center sm:text-left">Minhas Receitas Deliciosas</h1>
-            </div>
-            <nav class="mt-4 sm:mt-0"></nav>
-        </div>
-    </header>
-
+{% block content %}
     <section class="container mx-auto mt-8 p-4 flex justify-center">
-       <form method="get" action="{% url 'pesquisar_receitas' %}"
-       class="w-full max-w-lg flex bg-white rounded-full shadow-md overflow-hidden">
-            <input type="text"
-            name="q"
-            placeholder="Pesquisar receitas..."
-            class="flex-grow p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-l-full pl-5">
-            <button
-                class="bg-orange-500 hover:bg-orange-600 text-white p-3 px-6 rounded-r-full transition duration-300 ease-in-out flex items-center justify-center">
+        <form method="GET" action="{% url 'pesquisar_receitas' %}" class="w-full max-w-lg flex bg-white rounded-full shadow-md overflow-hidden">
+            <input type="text" name="q" placeholder="Pesquisar receitas..." class="flex-grow p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-l-full pl-5">
+            <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white p-3 px-6 rounded-r-full transition duration-300 ease-in-out flex items-center justify-center">
                 <i class="fas fa-search mr-2"></i> Pesquisar
             </button>
         </form>
     </section>
 
-    <main class="container mx-auto p-6 mt-8 bg-white rounded-lg shadow-md">
-        <h2 class="text-2xl font-semibold mb-6 text-center">Nossas Últimas Receitas</h2>
-        <div class="flex flex-wrap justify-center gap-6">
-            <!--Receita 1-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/bolo_de_chocolate.jpeg' %}" alt="[Bolo de Chocolate]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Receita de Bolo de Chocolate</h3>
-                <p class="text-gray-600 mb-4">Um bolo clássico, cremoso e delicioso, perfeito para qualquer ocasião.</p>
-                <a href="{% url 'receita_detail' id=1 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
+    <h2 class="text-2xl font-semibold mb-6 text-center mt-8">Nossas Últimas Receitas</h2>
+    <div class="flex flex-wrap justify-center gap-6">
+        {% for receita in receitas %}
+            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
+                {% if receita.image %}
+                <img src="{{ receita.image.url }}" alt="Imagem de {{ receita.title }}" class="w-full h-48 object-cover rounded-md mb-4">
+                {% endif %}
+                <h3 class="text-xl font-bold mb-2 text-gray-800">{{ receita.title }}</h3>
+                <p class="text-gray-600 mb-4">{{ receita.description|truncatewords:20 }}</p>
+                <a href="{% url 'receita_detail' id=receita.id %}" class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-full transition-colors duration-300">Ver Receita &rarr;</a>
             </div>
-
-            <!-- Receita 2-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/frango assado.jpeg' %}" alt="[Frango Assado com Ervas]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Frango Assado com Ervas</h3>
-                <p class="text-gray-600 mb-4">Um prato suculento e aromático, perfeito para o almoço em família.</p>
-                <a href="{% url 'receita_detail' id=2 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-            <!-- Receita 3-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/strogonoff_de_carne.jpeg' %}" alt="[Strogonoff de Carne Cremoso]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Strogonoff de Carne Cremoso</h3>
-                <p class="text-gray-600 mb-4">Uma receita clássica e reconfortante, perfeita para um jantar especial.
-                </p>
-                <a href="{% url 'receita_detail' id=3 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-
-            <!-- Receita 4-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/torta_madalena.jpeg' %}" alt="[Torta Madalena]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Torta Madalena</h3>
-                <p class="text-gray-600 mb-4">Uma sobremesa clássica, leve e deliciosa, perfeita para acompanhar o café
-                    da tarde.</p>
-                <a href="{% url 'receita_detail' id=4 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-
-            <!-- Receita 5-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/fricasse_de_frango.jpeg' %}" alt="[Fricassê de Frango]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Fricassê de Frango</h3>
-                <p class="text-gray-600 mb-4">Uma receita cremosa e saborosa, perfeita para o almoço em família.</p>
-                <a href="{% url 'receita_detail' id=5 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-
-            <!-- Receita 6-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/costela_barbecue.jpeg' %}" alt="[Costela Ao Molho Barbecue]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Costela Ao Molho Barbecue</h3>
-                <p class="text-gray-600 mb-4">Uma receita suculenta e cheia de sabor, perfeita para um churrasco em
-                    família.</p>
-                <a href="{% url 'receita_detail' id=6 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-
-            <!-- Receita 7-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/macarrao_bolonhesa.jpg' %}" alt="[Macarrão à Bolonhesa Clássico]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Macarrão à Bolonhesa Clássico</h3>
-                <p class="text-gray-600 mb-4">Uma receita suculenta e cheia de sabor, perfeita para um almoço em
-                    família.</p>
-                <a href="{% url 'receita_detail' id=7 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-
-            <!-- Receita 8-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/mousse_maracuja.jpeg' %}" alt="[Mousse de Maracujá Rápido]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Mousse de Maracujá Rápido</h3>
-                <p class="text-gray-600 mb-4">Uma receita leve e refrescante, perfeita para a sobremesa.</p>
-                <a href="{% url 'receita_detail' id=8 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-
-            <!-- Receita 9-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/pao_de_queijo.jpeg' %}" alt="[Pão de Queijo no Liquidificador]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Pão de Queijo no Liquidificador</h3>
-                <p class="text-gray-600 mb-4">Uma receita prática e deliciosa, perfeita para o lanche.</p>
-                <a href="{% url 'receita_detail' id=9 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-
-            <!-- Receita 10-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/risoto.jpeg' %}" alt="[Risoto de Tomate Seco com Rúcula]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Risoto de Tomate Seco com Rúcula</h3>
-                <p class="text-gray-600 mb-4">Um prato sofisticado e cheio de sabor, perfeito para um jantar especial.</p>
-                <a href="{% url 'receita_detail' id=10 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-
-            <!-- Receita 11-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/torta_frango.jpeg' %}" alt="[Torta de Frango Cremosa com Massa de Guaraná]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Torta de Frango Cremosa com Massa de Guaraná</h3>
-                <p class="text-gray-600 mb-4">Uma torta salgada surpreendente com uma massa fofinha e muito prática.</p>
-                <a href="{% url 'receita_detail' id=11 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-
-            <!-- Receita 12-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/salada_caprese.jpeg' %}" alt="[Salada Caprese no Palito]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Salada Caprese no Palito</h3>
-                <p class="text-gray-600 mb-4">A clássica salada italiana em uma versão charmosa e prática para servir.</p>
-                <a href="{% url 'receita_detail' id=12 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-
-            <!-- Receita 13-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/moqueca_baiana.jpeg' %}" alt="[Moqueca de Peixe Baiana]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Moqueca de Peixe Baiana</h3>
-                <p class="text-gray-600 mb-4">Uma das joias da culinária brasileira, esta moqueca de peixe é vibrante, cremosa e cheia de sabor.</p>
-                <a href="{% url 'receita_detail' id=13 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-
-            <!-- Receita 14-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/brigadeirao.jpeg' %}" alt="[Brigadeirão de Forno]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Brigadeirão de Forno</h3>
-                <p class="text-gray-600 mb-4">Uma sobremesa que é pura comfort food!</p>
-                <a href="{% url 'receita_detail' id=14 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-
-            <!-- Receita 15-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/dadinho_tapioca.jpeg' %}" alt="[Dadinho de Tapioca]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Dadinho de Tapioca</h3>
-                <p class="text-gray-600 mb-4">O aperitivo perfeito que virou febre em bares e restaurantes de todo o Brasil.</p>
-                <a href="{% url 'receita_detail' id=15 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-
-            <!-- Receita 16-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/farofa_banana.jpeg' %}" alt="[Farofa de Banana da Terra]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Farofa de Banana da Terra</h3>
-                <p class="text-gray-600 mb-4">Um acompanhamento clássico, agridoce e cheio de textura que eleva qualquer prato.</p>
-                <a href="{% url 'receita_detail' id=16 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-
-            <!-- Receita 17-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/escondidinho.jpeg' %}" alt="[Escondidinho de Carne Seca]" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Escondidinho de Carne Seca</h3>
-                <p class="text-gray-600 mb-4">Um prato reconfortante e muito saboroso, que combina a tradição da culinária nordestina com a cremosidade do purê de mandioca.</p>
-                <a href="{% url 'receita_detail' id=17 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-
-            <!-- Receita 18-->
-            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg
-            transition-shadow duration-300 ease-in-out">
-                <img src="{% static 'receitas/img/quentao.jpeg' %}" alt="Torta de Frango Cremosa com Massa de Guaraná" class="w-full h-48 object-cover rounded-md mb-4">
-                <h3 class="text-xl font-bold mb-2 text-gray-800">Quentão (Vinho Quente)</h3>
-                <p class="text-gray-600 mb-4">Uma bebida quente e aromática, perfeita para aquecer as noites frias.</p>
-                <a href="{% url 'receita_detail' id=18 %}" class="text-orange-600 hover:text-orange-800 font-semibold">Ver Receita &rarr;</a>
-            </div>
-        </div>
-    </main>
-
-    <footer class="mt-12 p-6 text-center text-gray-600">
-        <p>&copy; 2025 Minhas Receitas. Todos os direitos reservados a Leonardo.</p>
-    </footer>
-</body>
-
-</html>
+        {% empty %}
+            <p class="text-center text-gray-500 col-span-full">Nenhuma receita encontrada.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
