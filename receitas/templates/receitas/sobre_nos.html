@@ -1,0 +1,24 @@
+{% extends 'receitas/base.html' %}
+
+{% block content %}
+
+<div class="container mx-auto mt-8 p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-2xl overflow-hidden">
+
+        <div class="p-8 text-center bg-gray-100 dark:text-gray-400 max-w-2xl mx-auto">
+            <h1 class="text-4xl font-bold mb-4 text-gray-900 dark:text-black">Sobre Nós</h1>
+            <p class="text-lg mb-6">Bem-vindo ao nosso site de receitas! Somos apaixonados por culinária e adoramos
+                compartilhar nossas receitas favoritas com você. Nossa missão é inspirar você a cozinhar pratos
+                deliciosos e saudáveis em casa.</p>
+            <p class="text-lg mb-6">Aqui, você encontrará uma variedade de receitas, desde pratos principais até 
+                sobremesas irresistíveis. Cada receita é cuidadosamente testada para garantir que você tenha sucesso na
+                cozinha.</p>
+            <p class="text-lg mb-6">Agradecemos por visitar nosso site e esperamos que você encontre inspiração para
+                suas
+                aventuras culinárias. Junte-se a nós e vamos cozinhar juntos!</p>
+            <a href="{% url 'home' %}"
+                class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-orange-600 transition-colors duration-300 transform hover:-translate-y-1">Explore Nossas Receitas</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

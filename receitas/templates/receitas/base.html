@@ -19,18 +19,29 @@
 </head>
 
 <body class="bg-gray-100 text-gray-900">
-    <header class="bg-gray-900 text-white p-6 shadow-lg rounded-b-lg">
-        <div class="container mx-auto relative flex items-center justify-between">
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="flex items-center">
-                    <div class="text-4xl mr-4">
-                        <i class="fas fa-utensils"></i>
-                    </div>
-                    <h1 class="text-3xl font-bold">Minhas Receitas Deliciosas</h1>
-                </div>
+    <header class="bg-gray-900 text-white p-6 shadow-lg rounded-b-lg relative">
+        <div class="container mx-auto flex flex-col items-center relative">
+            <a href="{% url 'home' %}" class="absolute top-6 left-6 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 flex items-center">
+                <i class="fas fa-home mr-2"></i>Home
+            </a>
+
+            <!-- Botões Sobre Nós e Contato no canto superior direito -->
+            <div class="absolute top-6 right-6 flex gap-3">
+                <a href="{% url 'sobre_nos' %}" class="bg-gray-900 text-white font-medium py-1 px-3 rounded">Sobre Nós</a>
+                <a href="{% url 'contato' %}" class="bg-gray-900 text-white font-medium py-1 px-3 rounded">Contato</a>
             </div>
-            <nav class="relative z-10">
-                <a href="{% url 'home' %}" class="text-gray-300 hover:text-white mx-2">Home</a>
+
+            <div class="flex items-center mt-8 md:mt-0">
+                <div class="text-4xl mr-4">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h1 class="text-3xl font-bold">Minhas Receitas Deliciosas</h1>
+            </div>
+
+            <nav class="mt-6 flex flex-wrap justify-center gap-4">
+                <a href="{% url 'home' %}?categoria=comida" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-5 rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">Comida</a>
+                <a href="{% url 'home' %}?categoria=sobremesa" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-5 rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">Sobremesa</a>
+                <a href="{% url 'home' %}?categoria=drink" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-5 rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">Drink</a>
             </nav>
         </div>
     </header>

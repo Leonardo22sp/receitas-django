@@ -10,7 +10,7 @@
     </h2>
 
     <div class="flex flex-wrap justify-center gap-6">
-        {% for receita in resultados %}
+        {% for receita in receitas %}
         <div
             class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
             {% if receita.image %}
@@ -24,9 +24,8 @@
                 Receita &rarr;</a>
         </div>
         {% empty %}
-        {% else %}
         <p class="text-center text-gray-600 col-span-full">Nenhuma receita encontrada.</p>
-        {% endif %}
+        {% endfor %}
     </div>
 </main>
 {% endblock %}
